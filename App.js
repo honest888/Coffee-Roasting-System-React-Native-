@@ -1,20 +1,29 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import Main from "./component/Main";
+import RDTTimer from "./component/RDTTimer";
+import RoastProfile from "./component/RoastProfile";
+import EspressoLog from "./component/EspressoLog";
+import EspressoProfile from "./component/EspressoProfile";
+import Calculator from "./component/Calculator";
+import {
+	SafeAreaProvider,
+} from 'react-native-safe-area-context';
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+	const Stack = createNativeStackNavigator();
+	return (
+		<SafeAreaProvider>
+			<NavigationContainer>
+				<Stack.Navigator>
+					<Stack.Screen name="Main" component={Main}></Stack.Screen>
+					<Stack.Screen name="RDTTimer" component={RDTTimer}></Stack.Screen>
+					<Stack.Screen name="RoastProfile" component={RoastProfile}></Stack.Screen>
+					<Stack.Screen name="EspressoLog" component={EspressoLog}></Stack.Screen>
+					<Stack.Screen name="EspressoProfile" component={EspressoProfile}></Stack.Screen>
+					<Stack.Screen name="Calculator" component={Calculator}></Stack.Screen>
+				</Stack.Navigator>
+			</NavigationContainer>
+		</SafeAreaProvider>
+	);
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
