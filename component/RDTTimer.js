@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform, ScrollView } from 'react-native'
 import { useState, useLayoutEffect, useEffect } from 'react'
 import { LinearGradient } from 'expo-linear-gradient';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -25,10 +25,11 @@ const RDTTimer = ({ navigation }) => {
         greenWeight: "",
         endWeight: "",
         weightLoss: "",
-    })
+    });
+
     const onChange = (name, value) => {
         setFormData({ ...formData, [name]: value });
-    }
+    };
 
     const recordStartTime = async () => {
         try {
@@ -162,157 +163,166 @@ const RDTTimer = ({ navigation }) => {
     }, [time])
 
     return (
-        <View className="relative h-screen" style={{
-            paddingTop: insets.top,
-            paddingBottom: insets.bottom,
-            paddingLeft: insets.left,
-            paddingRight: insets.right,
-        }}>
-            <LinearGradient
-                colors={['rgb(80, 138, 191)', 'rgb(78, 136, 189)', 'rgb(35, 95, 145)']}
-                className="flex-row p-2 align-top h-[80px]"
-            >
-                <Text className="text-slate-50 text-xl font-semibold">
-                    Bean:
-                </Text>
-                <View>
-                    <TextInput
-                        className="text-slate-50 text-xl pl-2 font-semibold"
-                        name="bean"
-                        multiline
-                        onChangeText={newText => onChange("bean", newText)}
-                        value={formData.bean}
-                    />
-                </View>
-            </LinearGradient>
-            <View className="bg-[#4e94cf] p-2 flex-row w-100 justify-between">
-                <TouchableOpacity className={`${timer == 0 ? "bg-[#ffc000]" : "bg-[#aa8109]"} p-1 rounded-lg h-[60px] flex justify-center w-[23%]`} disabled={timer == 0 ? false : true} onPress={() => { startTimer() }}>
-                    <Text className="text-center text-lg text-black text-wrap font-semibold">START</Text>
-                </TouchableOpacity>
-                <TouchableOpacity className={`${formData.yellowPhase !== "" ? "bg-[#8c5222]" : "bg-[#f79646]"} p-1 rounded-lg h-[60px] flex justify-center w-[23%]`} disabled={formData.yellowPhase === "" ? false : true} onPress={() => { yellowPhaseClick() }} >
-                    <Text className="text-center text-lg text-black text-wrap font-semibold leading-[25px]">YELLOW PHASE</Text>
-                </TouchableOpacity>
-                <TouchableOpacity className={`${formData.firstCrack === "" ? "bg-[#ffc000]" : "bg-[#aa8109]"} p-1 rounded-lg h-[60px] flex justify-center w-[23%]`} disabled={formData.firstCrack === "" ? false : true} onPress={() => { firstCrackClick() }}>
-                    <Text className="text-center text-lg text-black text-wrap font-semibold leading-[25px]">FIRST CRACK</Text>
-                </TouchableOpacity>
-                <TouchableOpacity className={`${formData.endTime !== "" ? "bg-[#8c5222]" : "bg-[#f79646]"} p-1 rounded-lg h-[60px] flex justify-center w-[23%]`} disabled={formData.endTime === "" ? false : true} onPress={() => { endTimer() }}>
-                    <Text className="text-center text-lg text-black text-wrap font-semibold">END</Text>
-                </TouchableOpacity>
-            </View>
-            <View className="px-5 pt-5 mx-5">
-                <View className="flex-row justify-between items-center">
-                    <Text className="text-3xl font-bold">{min + " : " + sec}</Text>
-                    <View className="flex-row items-center w-[55%]">
-                        <Text className="text-xl">RDT%</Text>
+        <View
+            className="relative h-screen"
+            style={{
+                paddingTop: insets.top,
+                paddingBottom: insets.bottom,
+                paddingLeft: insets.left,
+                paddingRight: insets.right,
+            }}>
+            <KeyboardAvoidingView
+                behavior={Platform.OS === "ios" ? 'padding' : "height"}>
+
+                <LinearGradient
+                    colors={['rgb(80, 138, 191)', 'rgb(78, 136, 189)', 'rgb(35, 95, 145)']}
+                    className="flex-row p-2 align-top h-[80px]"
+                >
+                    <Text className="text-slate-50 text-xl font-semibold">
+                        Bean:
+                    </Text>
+                    <View>
                         <TextInput
-                            className="text-black ml-4 text-2xl w-[90px] text-center bg-[#e1ebf3] rounded-lg border-[#62a3da] border-2"
-                            value={RDT}
+                            className="text-slate-50 text-xl pl-2 font-semibold"
+                            name="bean"
+                            multiline
+                            onChangeText={newText => onChange("bean", newText)}
+                            value={formData.bean}
                         />
                     </View>
-                </View>
-                <View className="flex-row justify-between mt-3">
-                    <Text className={`${percentLimit14 !== 0 && time >= percentLimit14 ? "text-red-700" : "text-black"} text-xl`}>14%{percentLimit14S}</Text>
-                    <Text className={`${percentLimit20 !== 0 && time >= percentLimit20 ? "text-red-700" : "text-black"} text-xl w-[50%]`}>20%{percentLimit20S}</Text>
-                </View>
-                <View className="flex-row justify-between mt-3">
-                    <Text className={`${percentLimit16 !== 0 && time >= percentLimit16 ? "text-red-700" : "text-black"} text-xl`}>16%{percentLimit16S}</Text>
-                    <Text className={`${percentLimit22 !== 0 && time >= percentLimit22 ? "text-red-700" : "text-black"} text-xl w-[50%]`}>22%{percentLimit22S}</Text>
-                </View>
-                <View className="flex-row justify-between mt-3">
-                    <Text className={`${percentLimit18 !== 0 && time >= percentLimit18 ? "text-red-700" : "text-black"} text-xl`}>18%{percentLimit18S}</Text>
-                    <Text className={`${percentLimit24 !== 0 && time >= percentLimit24 ? "text-red-700" : "text-black"} text-xl w-[50%]`}>24%{percentLimit24S}</Text>
-                </View>
-            </View>
-            <View className="p-3">
-                <View className="flex-row justify-between items-center">
-                    <Text className="text-xl">Preheat Temp</Text>
-                    <View className="flex-row items-center w-[55%]">
-                        <TextInput
-                            className="text-black ml-4 text-xl w-[150px] text-center bg-[#e1ebf3] rounded-xl border-[#62a3da] border-2"
-                            onChangeText={newText => onChange("preheatTemp", newText)}
-                            value={formData.preheatTemp}
-                        />
-                        <Text className="text-xl">F/C</Text>
+                </LinearGradient>
+                <ScrollView>
+                    <View className="bg-[#4e94cf] p-2 flex-row w-100 justify-between">
+                        <TouchableOpacity className={`${timer == 0 ? "bg-[#ffc000]" : "bg-[#aa8109]"} p-1 rounded-lg h-[60px] flex justify-center w-[23%]`} disabled={timer == 0 ? false : true} onPress={() => { startTimer() }}>
+                            <Text className="text-center text-lg text-black text-wrap font-semibold">START</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity className={`${formData.yellowPhase !== "" ? "bg-[#8c5222]" : "bg-[#f79646]"} p-1 rounded-lg h-[60px] flex justify-center w-[23%]`} disabled={formData.yellowPhase === "" ? false : true} onPress={() => { yellowPhaseClick() }} >
+                            <Text className="text-center text-lg text-black text-wrap font-semibold leading-[25px]">YELLOW PHASE</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity className={`${formData.firstCrack === "" ? "bg-[#ffc000]" : "bg-[#aa8109]"} p-1 rounded-lg h-[60px] flex justify-center w-[23%]`} disabled={formData.firstCrack === "" ? false : true} onPress={() => { firstCrackClick() }}>
+                            <Text className="text-center text-lg text-black text-wrap font-semibold leading-[25px]">FIRST CRACK</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity className={`${formData.endTime !== "" ? "bg-[#8c5222]" : "bg-[#f79646]"} p-1 rounded-lg h-[60px] flex justify-center w-[23%]`} disabled={formData.endTime === "" ? false : true} onPress={() => { endTimer() }}>
+                            <Text className="text-center text-lg text-black text-wrap font-semibold">END</Text>
+                        </TouchableOpacity>
                     </View>
-                </View>
-                <View className="flex-row justify-between items-center mt-1">
-                    <Text className="text-xl">Yellow Phase</Text>
-                    <View className="flex-row items-center w-[55%]">
-                        <TextInput
-                            className="text-black ml-4 text-xl w-[150px] text-center bg-[#e1ebf3] rounded-xl border-[#62a3da] border-2"
-                            disabled
-                            value={formData.yellowPhase}
-                        />
-                        <Text className="text-xl">m/%</Text>
+                    <View className="px-5 pt-5 mt-2 mx-5">
+                        <View className="flex-row justify-between items-center">
+                            <Text className="text-3xl font-bold">{min + " : " + sec}</Text>
+                            <View className="flex-row items-center w-[55%]">
+                                <Text className="text-xl">RDT%</Text>
+                                <TextInput
+                                    className="text-black ml-4 text-2xl w-[90px] text-center bg-[#e1ebf3] rounded-lg border-[#62a3da] border-2"
+                                    value={RDT}
+                                />
+                            </View>
+                        </View>
+                        <View className="flex-row justify-between mt-3">
+                            <Text className={`${percentLimit14 !== 0 && time >= percentLimit14 ? "text-red-700" : "text-black"} text-xl`}>14%{percentLimit14S}</Text>
+                            <Text className={`${percentLimit20 !== 0 && time >= percentLimit20 ? "text-red-700" : "text-black"} text-xl w-[50%]`}>20%{percentLimit20S}</Text>
+                        </View>
+                        <View className="flex-row justify-between mt-3">
+                            <Text className={`${percentLimit16 !== 0 && time >= percentLimit16 ? "text-red-700" : "text-black"} text-xl`}>16%{percentLimit16S}</Text>
+                            <Text className={`${percentLimit22 !== 0 && time >= percentLimit22 ? "text-red-700" : "text-black"} text-xl w-[50%]`}>22%{percentLimit22S}</Text>
+                        </View>
+                        <View className="flex-row justify-between mt-3">
+                            <Text className={`${percentLimit18 !== 0 && time >= percentLimit18 ? "text-red-700" : "text-black"} text-xl`}>18%{percentLimit18S}</Text>
+                            <Text className={`${percentLimit24 !== 0 && time >= percentLimit24 ? "text-red-700" : "text-black"} text-xl w-[50%]`}>24%{percentLimit24S}</Text>
+                        </View>
                     </View>
-                </View>
-                <View className="flex-row justify-between items-center mt-1">
-                    <Text className="text-xl">Maillard Phase</Text>
-                    <View className="flex-row items-center w-[55%]">
-                        <TextInput
-                            className="text-black ml-4 text-xl w-[150px] text-center bg-[#e1ebf3] rounded-xl border-[#62a3da] border-2"
-                            disabled
-                            value={formData.maillardPhase}
-                        />
-                        <Text className="text-xl">m/%</Text>
+
+                    <View className="p-3 mt-3" >
+                        <View className="flex-row justify-between items-center">
+                            <Text className="text-xl">Preheat Temp</Text>
+                            <View className="flex-row items-center w-[55%]">
+                                <TextInput
+                                    className="text-black ml-4 text-xl w-[150px] text-center bg-[#e1ebf3] rounded-xl border-[#62a3da] border-2"
+                                    onChangeText={newText => onChange("preheatTemp", newText)}
+                                    value={formData.preheatTemp}
+                                />
+                                <Text className="text-xl">F/C</Text>
+                            </View>
+                        </View>
+                        <View className="flex-row justify-between items-center mt-1">
+                            <Text className="text-xl">Yellow Phase</Text>
+                            <View className="flex-row items-center w-[55%]">
+                                <TextInput
+                                    className="text-black ml-4 text-xl w-[150px] text-center bg-[#e1ebf3] rounded-xl border-[#62a3da] border-2"
+                                    disabled
+                                    value={formData.yellowPhase}
+                                />
+                                <Text className="text-xl">m/%</Text>
+                            </View>
+                        </View>
+                        <View className="flex-row justify-between items-center mt-1">
+                            <Text className="text-xl">Maillard Phase</Text>
+                            <View className="flex-row items-center w-[55%]">
+                                <TextInput
+                                    className="text-black ml-4 text-xl w-[150px] text-center bg-[#e1ebf3] rounded-xl border-[#62a3da] border-2"
+                                    disabled
+                                    value={formData.maillardPhase}
+                                />
+                                <Text className="text-xl">m/%</Text>
+                            </View>
+                        </View>
+                        <View className="flex-row justify-between items-center mt-1">
+                            <Text className="text-xl">First Crack</Text>
+                            <View className="flex-row items-center w-[55%]">
+                                <TextInput
+                                    className="text-black ml-4 text-xl w-[150px] text-center bg-[#e1ebf3] rounded-xl border-[#62a3da] border-2"
+                                    disabled
+                                    value={formData.firstCrack}
+                                />
+                                <Text className="text-xl">m</Text>
+                            </View>
+                        </View>
+                        <View className="flex-row justify-between items-center mt-1">
+                            <Text className="text-xl">End Time</Text>
+                            <View className="flex-row items-center w-[55%]">
+                                <TextInput
+                                    className="text-black ml-4 text-xl w-[150px] text-center bg-[#e1ebf3] rounded-xl border-[#62a3da] border-2"
+                                    disabled
+                                    value={formData.endTime}
+                                />
+                                <Text className="text-xl">m/%</Text>
+                            </View>
+                        </View>
+                        <View className="flex-row justify-between items-center mt-1">
+                            <Text className="text-xl">Green Weight</Text>
+                            <View className="flex-row items-center w-[55%]">
+                                <TextInput
+                                    className="text-black ml-4 text-xl w-[150px] text-center bg-transparent rounded-xl border-[#62a3da] border-2"
+                                    onChangeText={newText => onChange("greenWeight", newText)}
+                                    value={formData.greenWeight}
+                                />
+                                <Text className="text-xl">g/oz</Text>
+                            </View>
+                        </View>
+                        <View className="flex-row justify-between items-center mt-1">
+                            <Text className="text-xl">End Weight</Text>
+                            <View className="flex-row items-center w-[55%]">
+                                <TextInput
+                                    className="text-black ml-4 text-xl w-[150px] text-center bg-transparent rounded-xl border-[#62a3da] border-2"
+                                    onChangeText={newText => onChange("endWeight", newText)}
+                                    value={formData.endWeight}
+                                />
+                                <Text className="text-xl">g/oz</Text>
+                            </View>
+                        </View>
+                        <View className="flex-row justify-between items-center mt-1">
+                            <Text className="text-xl">Weight Loss</Text>
+                            <View behavior={Platform.OS == "ios" ? "padding" : "height"} className="flex-row items-center w-[55%]">
+                                <TextInput
+                                    className="text-black ml-4 text-xl w-[150px] text-center bg-transparent rounded-xl border-[#62a3da] border-2"
+                                    disabled
+                                    value={formData.weightLoss}
+                                />
+                                <Text className="text-xl">g/oz</Text>
+                            </View>
+                        </View>
                     </View>
-                </View>
-                <View className="flex-row justify-between items-center mt-1">
-                    <Text className="text-xl">First Crack</Text>
-                    <View className="flex-row items-center w-[55%]">
-                        <TextInput
-                            className="text-black ml-4 text-xl w-[150px] text-center bg-[#e1ebf3] rounded-xl border-[#62a3da] border-2"
-                            disabled
-                            value={formData.firstCrack}
-                        />
-                        <Text className="text-xl">m</Text>
-                    </View>
-                </View>
-                <View className="flex-row justify-between items-center mt-1">
-                    <Text className="text-xl">End Time</Text>
-                    <View className="flex-row items-center w-[55%]">
-                        <TextInput
-                            className="text-black ml-4 text-xl w-[150px] text-center bg-[#e1ebf3] rounded-xl border-[#62a3da] border-2"
-                            disabled
-                            value={formData.endTime}
-                        />
-                        <Text className="text-xl">m/%</Text>
-                    </View>
-                </View>
-                <View className="flex-row justify-between items-center mt-1">
-                    <Text className="text-xl">Green Weight</Text>
-                    <View className="flex-row items-center w-[55%]">
-                        <TextInput
-                            className="text-black ml-4 text-xl w-[150px] text-center bg-transparent rounded-xl border-[#62a3da] border-2"
-                            onChangeText={newText => onChange("greenWeight", newText)}
-                            value={formData.greenWeight}
-                        />
-                        <Text className="text-xl">g/oz</Text>
-                    </View>
-                </View>
-                <View className="flex-row justify-between items-center mt-1">
-                    <Text className="text-xl">End Weight</Text>
-                    <View className="flex-row items-center w-[55%]">
-                        <TextInput
-                            className="text-black ml-4 text-xl w-[150px] text-center bg-transparent rounded-xl border-[#62a3da] border-2"
-                            onChangeText={newText => onChange("endWeight", newText)}
-                            value={formData.endWeight}
-                        />
-                        <Text className="text-xl">g/oz</Text>
-                    </View>
-                </View>
-                <View className="flex-row justify-between items-center mt-1">
-                    <Text className="text-xl">Weight Loss</Text>
-                    <View className="flex-row items-center w-[55%]">
-                        <TextInput
-                            className="text-black ml-4 text-xl w-[150px] text-center bg-transparent rounded-xl border-[#62a3da] border-2"
-                            disabled
-                            value={formData.weightLoss}
-                        />
-                        <Text className="text-xl">g/oz</Text>
-                    </View>
-                </View>
-            </View>
+                </ScrollView>
+            </KeyboardAvoidingView>
             <TouchableOpacity className="bg-[#3a78a9]  px-2 py-4 absolute bottom-0 left-[32%] w-[36%]">
                 <Text className="text-slate-50 text-base font-semibold text-center">SAVE PROFILE</Text>
             </TouchableOpacity>

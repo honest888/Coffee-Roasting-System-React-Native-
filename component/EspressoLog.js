@@ -12,6 +12,10 @@ const EspressoLog = ({ navigation }) => {
     }, []);
     const insets = useSafeAreaInsets();
 
+    const [formData, setFormData] = useState({
+        bean: "",
+    });
+
     return (
         <View style={{
             paddingTop: insets.top,
@@ -19,7 +23,23 @@ const EspressoLog = ({ navigation }) => {
             paddingLeft: insets.left,
             paddingRight: insets.right,
         }}>
-            <Text>EspressorLog</Text>
+            <LinearGradient
+                colors={['rgb(80, 138, 191)', 'rgb(78, 136, 189)', 'rgb(35, 95, 145)']}
+                className="flex-row p-2 align-top h-[80px]"
+            >
+                <Text className="text-slate-50 text-xl font-semibold">
+                    Bean:
+                </Text>
+                <View>
+                    <TextInput
+                        className="text-slate-50 text-xl pl-2 font-semibold"
+                        name="bean"
+                        multiline
+                        onChangeText={newText => onChange("bean", newText)}
+                        value={formData.bean}
+                    />
+                </View>
+            </LinearGradient>
         </View>
     )
 }
