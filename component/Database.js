@@ -6,7 +6,7 @@ const db = SQLite.openDatabase("CRDT.db");
 
 const setupRoastProfileTable = async () => {
     db.transaction(tx => {
-        tx.executeSql('CREATE TABLE IF NOT EXISTS roastProfile (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, temperature TEXT, yellowPhase TEXT, maillardPhase TEXT, firstCrack TEXT, endTime TEXT, greenWeight TEXT, endWeight TEXT, weightLoss TEXT)');
+        tx.executeSql(`CREATE TABLE IF NOT EXISTS roastProfile (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, temperature TEXT, yellowPhase TEXT, maillardPhase TEXT, firstCrack TEXT, endTime TEXT, greenWeight TEXT, endWeight TEXT, weightLoss TEXT, createdDate  TEXT DEFAULT (strftime('%m/%d/%Y %H:%M:%S', 'now', 'localtime')))`);
     },
         (_, error) => { console.log("db error creating tables"); console.log(error); },
         (_, success) => { console.log("success") }

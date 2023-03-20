@@ -165,19 +165,20 @@ const RDTTimer = ({ navigation }) => {
 
     const save = async () => {
         try {
+            // await database.dropDatabaseTablesAsync();
             await database.setupRoastProfileTable();
             database.insertRoastProfile(formData, saveSuccess);
         }
         catch (error) {
             console.log(error);
         }
-        database.getRoastProfiles(setData);
+
+        // database.getRoastProfiles(setData);
     }
 
-    const setData = (data) => {
-        var array = data;
-        console.log(data);
-    }
+    // const setData = (data) => {
+    //     console.log(data);
+    // }
 
     const saveSuccess = () => {
         Toast.show('Saved', {

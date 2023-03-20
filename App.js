@@ -6,6 +6,7 @@ import RoastProfile from "./component/RoastProfile";
 import EspressoLog from "./component/EspressoLog";
 import EspressoProfile from "./component/EspressoProfile";
 import Calculator from "./component/Calculator";
+import RoastShow from "./component/RoastShow";
 import {
 	SafeAreaProvider,
 } from 'react-native-safe-area-context';
@@ -22,6 +23,7 @@ export default function App() {
 					<Stack.Screen name="EspressoLog" component={EspressoLog}></Stack.Screen>
 					<Stack.Screen name="EspressoProfile" component={EspressoProfile}></Stack.Screen>
 					<Stack.Screen name="Calculator" component={Calculator}></Stack.Screen>
+					<Stack.Screen name="RoastShow" component={RoastShow}></Stack.Screen>
 				</Stack.Navigator>
 			</NavigationContainer>
 		</SafeAreaProvider>
