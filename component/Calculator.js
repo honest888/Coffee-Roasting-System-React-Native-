@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity } from 'react-native'
+import { View, Text, TouchableOpacity, ScrollView, KeyboardAvoidingView } from 'react-native'
 import { useState, useLayoutEffect } from 'react'
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -17,7 +17,7 @@ const Calculator = ({ navigation }) => {
             paddingLeft: insets.left,
             paddingRight: insets.right,
         }}>
-            <Text>Calculator</Text>
+            <View><Text>SS</Text></View>
         </View>
     )
 }

@@ -33,7 +33,7 @@ const RoastShow = ({ navigation }) => {
         }}>
             <View className="h-screen p-3 flex justify-center">
                 <View className="bg-white shadow-lg shadow-black p-2">
-                    <Text className="font-semibold text-[18px]">Name: ${data.name}</Text>
+                    <Text className="font-semibold text-[18px]">Name: {data.name}</Text>
                     <Text className="text-[18px]">{`Temperature: ${data.temperature}\nYellow Phase: ${data.yellowPhase}\nMaillardPhase: ${data.maillardPhase}\nFirst Crack: ${data.firstCrack}\nEnd Time: ${data.endTime}\nGreen Weight: ${data.greenWeight}\nEnd Weight: ${data.endWeight}\nWeight Loss: ${data.weightLoss}`}</Text>
                 </View>
             </View>

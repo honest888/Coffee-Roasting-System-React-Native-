@@ -18,7 +18,7 @@ const RDTTimer = ({ navigation }) => {
 
     const [formData, setFormData] = useState({
         name: "",
-        preheatTemp: "",
+        temperature: "",
         yellowPhase: "",
         maillardPhase: "",
         firstCrack: "",
@@ -92,7 +92,8 @@ const RDTTimer = ({ navigation }) => {
     }
 
     const endTimer = () => {
-        onChange("endTime", min + " : " + sec)
+        onChange("endTime", min + " : " + sec);
+        setFormData({ ...formData, endTime: (min + " : " + sec), yellowPhase: (formData.yellowPhase + " | " + (yellowPhaseTime / time * 100).toFixed(1) + "%"), maillardPhase: (formData.maillardPhase + " | " + ((firstCrackTime - yellowPhaseTime) / time * 100).toFixed(1) + "%") })
         clearInterval(timer);
         setTimer(0);
         AsyncStorage.clear();
@@ -209,7 +210,7 @@ const RDTTimer = ({ navigation }) => {
                         <Text className="text-slate-50 text-xl font-semibold">
                             Bean:
                         </Text>
-                        <View>
+                        <View className="flex-auto">
                             <TextInput
                                 className="text-slate-50 text-xl pl-2 font-semibold"
                                 multiline
@@ -264,8 +265,8 @@ const RDTTimer = ({ navigation }) => {
                                 <View className="flex-row items-center w-[55%]">
                                     <TextInput
                                         className="text-black ml-4 text-xl w-[150px] text-center bg-[#e1ebf3] rounded-xl border-[#62a3da] border-2"
-                                        onChangeText={newText => onChange("preheatTemp", newText)}
-                                        value={formData.preheatTemp}
+                                        onChangeText={newText => onChange("temperature", newText)}
+                                        value={formData.temperature}
                                     />
                                     <Text className="text-xl">F/C</Text>
                                 </View>

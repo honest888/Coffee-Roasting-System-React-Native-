@@ -47,10 +47,18 @@ const getRoastProfiles = (setData) => {
 
 const insertRoastProfile = (data, successFunc) => {
     db.transaction(tx => {
-        tx.executeSql('INSERT INTO roastProfile (name, temperature, yellowPhase, maillardPhase, firstCrack, endTime, greenWeight, endWeight, weightLoss) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', [data.name, data.preheatTemp, data.yellowPhase, data.maillardPhase, data.firstCrack, data.endTime, data.greenWeight, data.endWeight, data.weightLoss]);
+        tx.executeSql('INSERT INTO roastProfile (name, temperature, yellowPhase, maillardPhase, firstCrack, endTime, greenWeight, endWeight, weightLoss) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', [data.name, data.temperature, data.yellowPhase, data.maillardPhase, data.firstCrack, data.endTime, data.greenWeight, data.endWeight, data.weightLoss]);
     },
         (t, error) => { console.log("db error insertRoastProfile"); console.log(error); },
         (t, success) => { successFunc() })
+}
+
+const updateRoastProfile = (id, data) => {
+    db.transaction(tx => {
+        tx.executeSql('UPDATE roastProfile SET name = ?, temperature = ?, yellowPhase = ?, maillardPhase = ?, firstCrack = ?, endTime = ?, greenWeight = ?, endWeight = ?, weightLoss = ? WHERE id = ?', [data.name, data.temperature, data.yellowPhase, data.maillardPhase, data.firstCrack, data.endTime, data.greenWeight, data.endWeight, data.weightLoss, id]);
+    },
+        (t, error) => { console.log("db error updateRoastProfile"); console.log(error); },
+        (t, success) => { console.log("update success") })
 }
 
 const deleteRoastProfile = (id) => {
@@ -102,5 +110,6 @@ export const database = {
     getEspresso,
     insertRoastProfile,
     deleteRoastProfile,
-    dropDatabaseTablesAsync
+    dropDatabaseTablesAsync,
+    updateRoastProfile
 }
