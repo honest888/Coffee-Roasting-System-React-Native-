@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity, Modal, ScrollView, KeyboardAvoidingView } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, Modal, ScrollView, KeyboardAvoidingView, Platform } from 'react-native'
 import { useState, useLayoutEffect, useEffect } from 'react'
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { SimpleLineIcons, FontAwesome } from '@expo/vector-icons';
@@ -79,7 +79,8 @@ const RoastProfile = ({ navigation }) => {
                     setModalVisible(!modalVisible);
                 }}
             >
-                <KeyboardAvoidingView>
+                <KeyboardAvoidingView
+                    behavior={Platform.OS === "ios" ? 'padding' : "height"}>
                     <View className="bg-black/40 h-full">
                         <View className="m-5 p-6 flex-1 bg-white">
                             <Text className="text-center italic text-2xl mt-6">Edit Roast Profile</Text>
