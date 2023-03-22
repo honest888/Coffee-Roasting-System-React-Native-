@@ -47,8 +47,8 @@ const EspressoLog = ({ navigation }) => {
                     </View>
                 </LinearGradient>
                 <ScrollView>
-                    <View className="flex-1">
-                        <View className="w-[50%]">
+                    <View className="flex-1 flex-wrap">
+                        <View className="w-[50%] basis-1/3 bg-black">
 
                         </View>
                     </View>
